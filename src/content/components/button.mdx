@@ -1,0 +1,128 @@
+---
+title: Button
+description: A button allows a user to perform an action, with mouse, touch, and keyboard interactions.
+---
+
+import CodeSource from '@/components/code-source.astro'
+import PreviewContainer from '@/components/preview-container.astro'
+import { Button } from '@/components/react/button.tsx'
+
+## Installation
+
+1. Copy and paste the following code into your project.
+
+<CodeSource path="/components/react/button.tsx" lang="tsx" fileName="components/ui/button.tsx" />
+
+2. For the loading state, you will need the `ProgressCircle` component. Or you can edit it and use your own loading component.
+
+<CodeSource path="/components/react/progress-circle.tsx" lang="tsx" fileName="components/ui/progress-circle.tsx" />
+
+## Examples
+
+### Default button
+
+<PreviewContainer>
+
+<Button slot="preview">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button>Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Primary button
+
+<PreviewContainer>
+
+<Button variant='primary' slot="preview">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button variant='primary'>Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Secondary button
+
+<PreviewContainer>
+
+<Button variant='secondary' slot="preview">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button variant='secondary'>Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Ghost button
+
+<PreviewContainer>
+
+<Button variant='ghost' slot="preview">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button variant='ghost'>Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Danger button
+
+<PreviewContainer>
+
+<Button variant='danger' slot="preview">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button variant='danger'>Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Large button
+
+<PreviewContainer>
+
+<Button slot="preview" size="lg">
+  <span>Click me</span>
+</Button>
+
+```tsx meta={fileName: ButtonDemo.tsx}
+import { Button } from "@/components/ui/button"
+
+export function ButtonDemo() {
+  return <Button size="lg">Click me</Button>
+}
+```
+
+</PreviewContainer>

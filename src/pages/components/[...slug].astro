@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content'
+
+import Pre from '@/components/pre.astro'
+import Prose from '@/components/prose.astro'
+import DocLayout from '@/layouts/doc-layout.astro'
+
+export async function getStaticPaths() {
+  const componentsEntries = await getCollection('components')
+  return componentsEntries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }))
+}
+
+const { entry } = Astro.props
+const { Content, headings: contentHeadings } = await entry.render()
+
+const headings = contentHeadings.filter(
+  (heading) => heading.depth > 1 && heading.depth <= 3
+)
+const { data } = entry
+---
+
+<DocLayout frontmatter={data} headings={headings}>
+  <Prose>
+    <Content components={{ pre: Pre }} />
+  </Prose>
+</DocLayout>

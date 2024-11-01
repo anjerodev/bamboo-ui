@@ -1,0 +1,12 @@
+---
+import { css, cx } from 'styled-system/css'
+
+interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class={cx(css({ height: '1px', my: 4, bg: 'border/50' }), className)}>
+</div>

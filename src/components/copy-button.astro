@@ -1,0 +1,97 @@
+---
+import { Check as CheckIcon, Copy as CopyIcon } from 'lucide'
+import { css, cx } from 'styled-system/css'
+
+import LucideIcon from '@/components/lucide-icon.astro'
+
+interface Props {
+  class?: string
+  value?: string
+}
+
+const { class: className, value, ...props } = Astro.props
+
+const styles = {
+  root: {
+    cursor: 'pointer',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'scale, background-color',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'easeIn',
+    padding: 2,
+    height: 8,
+    width: 8,
+    rounded: 'sm',
+    opacity: 0.5,
+    bg: 'transparent',
+    _hover: {
+      scale: 1.2,
+      bg: 'foreground/5',
+      opacity: 1,
+    },
+    _active: {
+      scale: 1,
+      bg: 'foreground/10',
+      opacity: 1,
+    },
+  },
+  icon: {
+    width: 'full',
+    height: 'full',
+    transition: 'opacity, scale',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'easeIn',
+  },
+}
+---
+
+<button
+  class={cx(css(styles.root), 'group copy-button', className)}
+  data-value={value}
+  {...props}
+>
+  <div class={css({ height: 4, width: 4, position: 'relative' })}>
+    <LucideIcon
+      icon={CopyIcon}
+      class={css({
+        ...styles.icon,
+        opacity: 1,
+        scale: 1,
+        ".group[data-state='copied'] &": { opacity: 0, scale: 0 },
+      })}
+    />
+    <LucideIcon
+      icon={CheckIcon}
+      width={16}
+      height={16}
+      class={css({
+        ...styles.icon,
+        position: 'absolute',
+        inset: 0,
+        opacity: 0,
+        scale: 0,
+        ".group[data-state='copied'] &": { opacity: 1, scale: 1 },
+      })}
+    />
+  </div>
+</button>
+
+<script>
+  const $buttons = document.querySelectorAll('.copy-button')
+  for (const $button of $buttons) {
+    $button.addEventListener('click', () => {
+      const value = $button.getAttribute('data-value')
+
+      if (value) {
+        navigator.clipboard.writeText(value)
+        $button.setAttribute('data-state', 'copied')
+
+        setTimeout(() => {
+          $button.removeAttribute('data-state')
+        }, 1500)
+      }
+    })
+  }
+</script>

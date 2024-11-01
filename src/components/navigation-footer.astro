@@ -1,0 +1,107 @@
+---
+import { css, cx } from 'styled-system/css'
+import LucideIcon from './lucide-icon.astro'
+import {
+  ArrowLeft as ArrowLeftIcon,
+  ArrowRight as ArrowRightIcon,
+} from 'lucide'
+interface Props {
+  entries: {
+    root: string
+    slug: string
+    title: string
+  }[]
+}
+
+const { slug } = Astro.params
+const { entries } = Astro.props
+
+const prevAndNext = (() => {
+  const currentIndex = entries.findIndex((item) => item.slug === slug)
+
+  const prev = currentIndex === 0 ? null : entries[currentIndex - 1]
+  const next =
+    currentIndex === entries.length - 1 ? null : entries[currentIndex + 1]
+
+  return {
+    prev: prev
+      ? { title: prev.title, url: `/${prev.root}/${prev.slug}` }
+      : null,
+    next: next
+      ? { title: next.title, url: `/${next.root}/${next.slug}` }
+      : null,
+  }
+})()
+
+const { prev, next } = prevAndNext
+
+const styles = {
+  root: css({
+    p: 4,
+    borderTop: '1px solid',
+    borderColor: 'border/50',
+    display: 'flex',
+    alignItems: 'center',
+  }),
+  button: css({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'end',
+    gap: 6,
+    fontSize: 'lg',
+    color: 'foreground',
+    px: 4,
+    py: 2,
+    rounded: 'md',
+    transition: 'background-color 0.15s token(easings.easeIn)',
+    '& svg': {
+      transition: 'transform, color',
+      transitionDuration: '0.15s',
+      transitionTimingFunction: 'easings.easeIn',
+      color: 'muted.foreground',
+    },
+    _hover: {
+      bg: 'muted.foreground/5',
+      '& svg': {
+        color: 'foreground',
+        '&.prev': {
+          transform: 'translateX(-2px)',
+        },
+        '&.next': {
+          transform: 'translateX(2px)',
+        },
+      },
+    },
+  }),
+  span: css({
+    display: 'block',
+    fontSize: 'sm',
+    color: 'muted.foreground',
+  }),
+}
+---
+
+<footer class={styles.root}>
+  {
+    prev && (
+      <a href={prev.url} class={styles.button}>
+        <LucideIcon icon={ArrowLeftIcon} width={16} height={16} class="prev" />
+        <div>
+          <span class={styles.span}>Previous</span>
+          {prev.title}
+        </div>
+      </a>
+    )
+  }
+  {
+    next && (
+      <a href={next.url} class={cx(styles.button, css({ ml: 'auto' }))}>
+        <div>
+          <span class={styles.span}>Next</span>
+          {next.title}
+        </div>
+        <LucideIcon icon={ArrowRightIcon} width={16} height={16} class="next" />
+      </a>
+    )
+  }
+</footer>

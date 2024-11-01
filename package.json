@@ -3,15 +3,35 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
+    "prepare": "panda codegen",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier ./src --write"
   },
   "dependencies": {
-    "astro": "^4.16.7",
     "@astrojs/check": "^0.9.4",
+    "@astrojs/mdx": "^3.1.8",
+    "@astrojs/react": "^3.6.2",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "astro": "^4.16.7",
+    "lucide": "^0.453.0",
+    "pandacss-preset-typography": "^0.1.6",
+    "react": "^18.3.1",
+    "react-aria-components": "1.4.1",
+    "react-dom": "^18.3.1",
     "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.47.0",
+    "@shikijs/transformers": "^1.22.2",
+    "prettier": "^3.3.3",
+    "prettier-plugin-astro": "^0.14.1"
+  },
+  "engines": {
+    "node": ">=22.0.0"
   }
 }

@@ -1,0 +1,141 @@
+---
+import { siteConfig } from '@/config/site'
+import { css } from 'styled-system/css'
+
+import Divider from '@/components/divider.astro'
+import IconButton from '@/components/icon-button.astro'
+import Logo from '@/components/logo.svg.astro'
+
+interface Props {
+  entries: {
+    root: string
+    slug: string
+    title: string
+  }[]
+}
+
+const { entries: entriesProp } = Astro.props
+
+const classifiedEntries = Object.groupBy(entriesProp, ({ root }) => root)
+const entries = Object.entries(classifiedEntries)
+
+const pathname = new URL(Astro.request.url).pathname
+const currentPath = pathname.slice(1)
+---
+
+<aside
+  class={css({
+    position: 'sticky',
+    top: 0,
+    bg: 'background',
+    height: 'screen',
+    pt: 5,
+    pb: 4,
+    display: 'none',
+    flexDirection: 'column',
+    md: { display: 'flex' },
+  })}
+>
+  <header class={css({ display: 'flex', alignItems: 'center', gap: 2, px: 4 })}>
+    <Logo class={css({ width: 8 })} />
+    <h1 class={css({ fontWeight: 'bold', fontSize: 'xl' })}>
+      {siteConfig.name}
+    </h1>
+  </header>
+  <Divider class={css({ mx: 4, mb: 0 })} />
+  <nav
+    class={css({
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: 1,
+      p: 4,
+      gap: 4,
+    })}
+  >
+    <>
+      {
+        entries.map(([root, entries], index) =>
+          entries?.length ? (
+            <ul>
+              <li>
+                <span
+                  class={css({
+                    fontWeight: 'bold',
+                    fontSize: 'xs',
+                    textTransform: 'uppercase',
+                    color: 'muted.foreground',
+                  })}
+                >
+                  {root}
+                </span>
+                <ul class={css({ spaceY: 1, mt: 1 })}>
+                  {entries?.map(({ slug, title }) => {
+                    const isActive = currentPath === `${root}/${slug}`
+
+                    return (
+                      <li>
+                        <a
+                          class={css({
+                            display: 'flex',
+                            alignItems: 'center',
+                            p: 2,
+                            bg: 'transparent',
+                            ml: -2,
+                            rounded: 'md',
+                            width: 'calc(100% + 16px)',
+                            transition: 'background-color',
+                            transitionDuration: '0.2s',
+                            transitionTimingFunction: 'easeIn',
+                            opacity: 0.7,
+                            _hover: { bg: 'foreground/5' },
+                            '&[data-active]': {
+                              opacity: 1,
+                              bg: 'foreground/10!',
+                            },
+                          })}
+                          href={`/${root}/${slug}`}
+                          data-active={isActive ? 'true' : undefined}
+                        >
+                          {title}
+                        </a>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </li>
+              {index < entries.length - 1 && <Divider />}
+            </ul>
+          ) : null
+        )
+      }
+    </>
+  </nav>
+  <Divider class={css({ mx: 4, mt: 0 })} />
+  <footer
+    class={css({
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: 2,
+      px: 4,
+    })}
+  >
+    <span class={css({ fontSize: 'sm', color: 'muted.foreground' })}>
+      By <a
+        href="https://anjero.dev"
+        target="_blank"
+        class={css({ _hover: { color: 'foreground' } })}>anjero</a
+      >
+    </span>
+    <IconButton as="a" href={siteConfig.links.github}>
+      <svg
+        role="img"
+        viewBox="0 0 24 24"
+        class={css({ width: 4, fill: 'currentcolor' })}
+        ><title>GitHub</title><path
+          d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"
+        ></path></svg
+      >
+    </IconButton>
+  </footer>
+</aside>

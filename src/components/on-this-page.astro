@@ -1,0 +1,147 @@
+---
+import { List as ListIcon } from 'lucide'
+import { css } from 'styled-system/css'
+
+import LucideIcon from '@/components/lucide-icon.astro'
+
+interface Props {
+  title: string
+  links?: {
+    text: string
+    slug: string
+    depth: number
+  }[]
+}
+
+const { title, links = [] } = Astro.props
+---
+
+<div
+  class:list={[
+    css({
+      display: 'none',
+      position: 'relative',
+      xl: { display: 'block' },
+    }),
+    'on-this-page',
+  ]}
+>
+  <aside data-on-this-page class={css({ position: 'sticky', top: 16 })}>
+    <span
+      class={css({
+        fontSize: 12,
+        color: 'muted.foreground',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 2,
+      })}
+    >
+      <LucideIcon icon={ListIcon} height={16} width={16} />
+      On this page
+    </span>
+    <h2 class={css({ fontSize: 'xl', fontWeight: 'medium', mb: 2 })}>
+      {title}
+    </h2>
+    <div class={css({ display: 'flex', gap: 4 })}>
+      <div
+        class={css({
+          position: 'relative',
+          width: 0,
+          borderRight: '1px dotted',
+          borderColor: 'muted.foreground/50',
+        })}
+      >
+        <span
+          class:list={[
+            css({
+              position: 'absolute',
+              transform: 'translateX(-25%)',
+              width: 0.5,
+              rounded: 'full',
+              bg: 'foreground',
+              transition: 'top 0.3s ease, height 0.3s ease',
+            }),
+            'indicator',
+          ]}></span>
+      </div>
+      <ul class={css({ display: 'flex', flexDirection: 'column', gap: 2 })}>
+        {
+          links.map(({ text, slug, depth }) => (
+            <li
+              class={css({
+                color: 'muted.foreground',
+                '&.active': { fontWeight: 'medium', color: 'foreground' },
+                _hover: { color: 'foreground' },
+              })}
+              style={{ marginLeft: `${(depth - 2) * 16}px` }}
+            >
+              <a href={`#${slug}`}>{text}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const $sections = Array.from(document.querySelectorAll('h2[id], h3[id]'))
+  const $navItems = Array.from(document.querySelectorAll('.on-this-page li'))
+  const $indicator = document.querySelector('.indicator') as HTMLElement
+  const $aside = document.querySelector('[data-on-this-page]')
+  const $list = $aside?.querySelector('ul')
+
+  function updateIndicator() {
+    if (!$list || !$indicator || !$navItems.length) return
+
+    let currentSectionIndex = 0
+
+    for (const [index, section] of $sections.entries()) {
+      const rect = section.getBoundingClientRect()
+
+      if (window.scrollY === 0) {
+        break
+      }
+
+      if (
+        index === $sections.length - 1 &&
+        rect.bottom + 100 < window.innerHeight
+      ) {
+        currentSectionIndex = index
+        break
+      }
+      if (rect.top <= 100) {
+        currentSectionIndex = index
+      }
+    }
+
+    // Update active state on navigation items
+    $navItems.forEach((navItem, idx) =>
+      navItem.classList.toggle('active', idx === currentSectionIndex)
+    )
+
+    // Align indicator with active item
+    const activeNavItemRect =
+      $navItems[currentSectionIndex].getBoundingClientRect()
+    const listRect = $list!.getBoundingClientRect()
+    const topOffset = activeNavItemRect.top - listRect.top
+
+    $indicator.style.top = `${topOffset}px`
+    $indicator.style.height = `${activeNavItemRect.height}px`
+  }
+
+  // Throttle updateIndicator on scroll using requestAnimationFrame
+  let ticking = false
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        updateIndicator()
+        ticking = false
+      })
+      ticking = true
+    }
+  })
+
+  // Initial call on DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', updateIndicator)
+</script>

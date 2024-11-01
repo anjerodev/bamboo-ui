@@ -1,0 +1,27 @@
+---
+import type { IconNode } from 'lucide'
+
+interface Props {
+  icon: IconNode
+  width?: number
+  height?: number
+  class?: string
+}
+
+const { icon, class: className, ...props } = Astro.props
+
+const [, attributes, children] = icon
+
+const componentChildren = children
+  ?.map(
+    ([shape, attributes]) =>
+      `<${shape} ${Object.entries(attributes)
+        .map(([k, v]) => `${k}="${v}"`)
+        .join(' ')} />`
+  )
+  .join('')
+
+const componentAttributes = { ...attributes, ...props }
+---
+
+<svg {...componentAttributes} class={className} set:html={componentChildren} />

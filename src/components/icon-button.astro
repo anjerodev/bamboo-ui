@@ -1,0 +1,71 @@
+---
+import type { Polymorphic } from 'astro/types'
+import { css, cx } from 'styled-system/css'
+
+type HTMLTag = 'button' | 'a'
+
+type Props<Tag extends HTMLTag> = Polymorphic<{ as: Tag }>
+
+const { as: Tag = 'button', class: className, ...props } = Astro.props
+
+const buttonStyle = css({
+  fontWeight: 'medium',
+  userSelect: 'none',
+  rounded: 'md',
+  cursor: 'pointer',
+  overflow: 'hidden',
+  position: 'relative',
+  display: 'inline-flex',
+  height: 10,
+  width: 10,
+  p: 2,
+  color: 'foreground',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 1,
+  transition: 'scale 0.15s token(easings.easeIn)',
+  outline: 'none',
+  _before: {
+    content: '""',
+    position: 'absolute',
+    zIndex: -1,
+    inset: 0,
+    bg: 'currentColor',
+    opacity: 0,
+    pointerEvents: 'none',
+    transition: 'opacity 0.2s token(easings.easeIn)',
+  },
+  _hover: {
+    _before: {
+      opacity: 0.1,
+    },
+  },
+  _focus: {
+    _before: {
+      opacity: 0.1,
+    },
+  },
+  _active: {
+    scale: 0.98,
+    _before: {
+      opacity: 0.2,
+    },
+  },
+  _disabled: {
+    pointerEvents: 'none',
+    bg: 'muted',
+    color: 'muted.foreground',
+    borderColor: 'border/50',
+  },
+  _pending: {
+    pointerEvents: 'none',
+    bg: 'muted',
+    color: 'muted.foreground',
+    borderColor: 'border/50',
+  },
+})
+---
+
+<Tag {...props} class={cx(buttonStyle, className)}>
+  <slot />
+</Tag>

@@ -1,0 +1,49 @@
+---
+order: 1
+title: 'Getting started'
+---
+
+import CodeSource from '@/components/code-source.astro'
+
+Bamboo UI is a set of components built using [React Aria Primitives](https://react-spectrum.adobe.com/react-aria/) and [Panda CSS](https://panda-css.com).
+
+## Installation
+
+To be able to use the components you need to install the React Aria primitives and Panda CSS with your favorite package manager:
+
+**For the Panda CSS installation I recommend you to check their own [installation guide](https://panda-css.com/docs/overview/getting-started#installation) for each framework.**
+
+```bash meta={fileName: Terminal}
+bun add react-aria-components
+```
+
+## Configuration
+
+After installing Panda CSS, you need to configure it to use the theme colors and tokens.
+
+1. Create a `panda.config.ts` file in the root of your project.
+
+2. Copy the next configuration and paste it in the file.
+
+<CodeSource path="~/panda.config.ts" lang="ts" fileName="panda.config.ts" />
+
+3. Create the `index.css` that incluides the css variables.
+
+<CodeSource path="index.css" lang="css" fileName="index.css" />
+
+4. Import the `index.css` in the root layout of your project.
+
+```tsx meta={fileName: index.astro}
+import ReactDOM from 'react-dom/client'
+
+import '.../index.css' // [!code ++]
+
+import { App } from './app'
+
+const rootElement = document.getElementById('root')!
+
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(<App />)
+}
+```

@@ -1,0 +1,48 @@
+---
+import { css, cx } from 'styled-system/css'
+
+export interface Props {
+  class?: string
+  slotContainerClassName?: string
+}
+const { class: className, slotContainerClassName } = Astro.props
+---
+
+<div class={cx(css({ display: 'grid', gap: 2 }), 'preview', className)}>
+  <div
+    class={cx(
+      css({
+        position: 'relative',
+        flex: 1,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        bg: 'background',
+        rounded: 'md',
+        p: 3!,
+        minHeight: '120px!',
+      }),
+      'preview-container',
+      slotContainerClassName
+    )}
+  >
+    <div class="dots-pattern"></div>
+    <slot name="preview" />
+  </div>
+  <slot />
+</div>
+
+<style>
+  .dots-pattern {
+    position: absolute;
+    pointer-events: none;
+    inset: 0;
+    opacity: 0.2;
+    background-image: radial-gradient(
+      var(--muted-foreground) 1px,
+      transparent 0
+    );
+    background-size: 16px 16px;
+    background-position: 0px -6px;
+  }
+</style>

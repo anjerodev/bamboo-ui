@@ -1,0 +1,43 @@
+---
+import { css } from 'styled-system/css'
+
+import OnThisPage from '@/components/on-this-page.astro'
+
+interface Props {
+  title: string
+  headings: {
+    text: string
+    slug: string
+    depth: number
+  }[]
+}
+
+const { title, headings } = Astro.props
+---
+
+<main
+  class={css({
+    display: 'grid',
+    gridTemplateColumns: '1fr',
+    px: 4,
+    gap: 4,
+    xl: { py: 16, px: 8, pl: 0, gridTemplateColumns: '1fr  240px' },
+  })}
+>
+  <div
+    class={css({
+      maxWidth: '3xl',
+      width: 'full',
+      mx: 'auto',
+      spaceY: 12,
+      overflowX: 'hidden',
+    })}
+  >
+    <slot name="header" />
+    <section class={css({ width: 'full' })}>
+      <slot />
+    </section>
+    <slot name="footer" />
+  </div>
+  <OnThisPage title={title} links={headings} />
+</main>

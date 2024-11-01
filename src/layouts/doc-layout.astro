@@ -1,0 +1,60 @@
+---
+import { getCollection } from 'astro:content'
+import { css } from 'styled-system/css'
+
+import { siteConfig } from '@/config/site'
+import Sidebar from '@/components/sidebar.astro'
+import ContentContainer from '@/components/content-container.astro'
+import Layout from '@/layouts/layout.astro'
+import NavigationFooter from '@/components/navigation-footer.astro'
+
+const docs = await getCollection('docs')
+const components = await getCollection('components')
+
+const sortedDocs = docs.sort((a, b) => a.data.order - b.data.order)
+const entries = [...sortedDocs, ...components].map((entry) => ({
+  root: entry.collection,
+  slug: entry.slug,
+  title: entry.data.title,
+}))
+
+const { frontmatter, headings } = Astro.props
+const { title, description } = frontmatter
+---
+
+<Layout title={`${siteConfig.name} - ${title}`}>
+  <div
+    class={css({
+      display: 'grid',
+      width: 'full',
+      gridTemplateColumns: '1fr',
+      gap: 4,
+      minHeight: 'screen',
+      md: { gridTemplateColumns: '240px 1fr' },
+    })}
+  >
+    <Sidebar entries={entries} />
+    <ContentContainer title={title} headings={headings}>
+      <header slot="header">
+        <h1
+          class={css({
+            fontWeight: 'bold',
+            fontSize: '4xl',
+            mb: 2,
+          })}
+        >
+          {title}
+        </h1>
+        {
+          description && (
+            <p class={css({ fontSize: 'xl', color: 'muted.foreground' })}>
+              {description}
+            </p>
+          )
+        }
+      </header>
+      <slot />
+      <NavigationFooter slot="footer" entries={entries} />
+    </ContentContainer>
+  </div>
+</Layout>

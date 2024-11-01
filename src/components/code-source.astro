@@ -1,0 +1,145 @@
+---
+import fs from 'node:fs/promises'
+import { Code } from 'astro:components'
+
+import { css } from 'styled-system/css'
+import {
+  FileTerminal as FileTerminalIcon,
+  FileType as FileTypeIcon,
+} from 'lucide'
+
+import LucideIcon from '@/components/lucide-icon.astro'
+import CopyButton from '@/components/copy-button.astro'
+
+interface Props {
+  path?: string
+  fileName?: string
+  lang: any
+  content?: string
+}
+
+const { path, lang, fileName, content } = Astro.props
+
+let code = content || ''
+
+if (!content && path) {
+  const parsedPath = path.startsWith('~/')
+    ? `../../${path.replace('~/', '')}`
+    : `../../src/${path}`
+  const url = new URL(parsedPath, import.meta.url)
+  code = await fs.readFile(url, 'utf-8')
+}
+
+const language = lang || 'tsx'
+---
+
+<div class="code-block">
+  <div
+    class={css({
+      display: 'flex',
+      gap: 2,
+      alignItems: 'center',
+      p: 2,
+      pl: 4,
+      roundedTop: 'md',
+      bg: 'background',
+      fontSize: 'sm',
+      color: 'muted.foreground',
+      fontWeight: 'semibold',
+      fontFamily: 'monospace',
+      borderBottom: '1px solid',
+      borderColor: 'border/50',
+      lineHeight: 'tight',
+    })}
+  >
+    {
+      () => {
+        if (language === 'bash') {
+          return <LucideIcon icon={FileTerminalIcon} width={16} height={16} />
+        }
+
+        return <LucideIcon icon={FileTypeIcon} width={16} height={16} />
+      }
+    }
+    {fileName && <span>{fileName}</span>}
+    <CopyButton class={css({ ml: 'auto' })} />
+  </div>
+  <div
+    class={css({
+      width: 'full',
+      overflow: 'hidden',
+      roundedBottom: 'md',
+      bg: 'background',
+    })}
+  >
+    <div
+      class={css({
+        position: 'relative',
+        maxHeight: 96,
+        width: 'full',
+        overflow: 'auto',
+        scrollbarColor: '{colors.muted.foreground/50} transparent',
+      })}
+    >
+      <Code
+        code={code}
+        lang={lang}
+        themes={{
+          light: 'github-light',
+          dark: 'github-dark',
+        }}
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  const $codeBlocks = document.querySelectorAll('.code-block')
+  for (const $codeBlock of $codeBlocks) {
+    const $copyButton = $codeBlock.querySelector('.copy-button')
+    const $code = $codeBlock.querySelector('pre')
+
+    if ($code && $copyButton) {
+      const content = $code.textContent?.trim()
+
+      if (content) $copyButton.setAttribute('data-value', content)
+    }
+  }
+</script>
+
+<style>
+  .code-block {
+    margin-bottom: 36px;
+  }
+
+  pre {
+    margin-top: 12px;
+    margin-bottom: 12px;
+    overflow-x: hidden !important;
+    padding-left: 0;
+    padding-right: 0;
+    min-width: 100%;
+    width: fit-content;
+  }
+</style>
+
+<style is:global>
+  .astro-code,
+  .astro-code span {
+    background-color: transparent !important;
+  }
+
+  .astro-code code {
+    display: block;
+    padding: 0 28px;
+    width: fit-content;
+    min-width: 100%;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+    }
+  }
+</style>
