@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react'
 
 import { Button as AriaButton } from 'react-aria-components'
@@ -7,7 +9,7 @@ import type { RecipeVariantProps } from 'styled-system/css'
 
 import type { WithCss } from '@/types/components'
 
-import { ProgressCircle } from '@/components/react/progress-circle'
+import { ProgressCircle } from '@/components/ui/progress-circle'
 
 const buttonStyle = cva({
   base: {
@@ -18,7 +20,7 @@ const buttonStyle = cva({
     overflow: 'hidden',
     position: 'relative',
     display: 'inline-flex',
-    gap: 3,
+    gap: 4,
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
@@ -98,9 +100,21 @@ const buttonStyle = cva({
       },
     },
     size: {
-      default: { px: 5, h: 10 },
+      default: {
+        px: 5,
+        h: 10,
+        _pending: { pl: 4 },
+        '&:has(.leading-icon)': { pl: 4, '& .leading-icon': { size: 4 } },
+        '&:has(.trailing-icon)': { pr: 4, '& .trailing-icon': { size: 4 } },
+      },
       icon: { p: 2 },
-      lg: { px: 6, h: 12 },
+      lg: {
+        px: 6,
+        h: 12,
+        _pending: { pl: 5 },
+        '&:has(.leading-icon)': { pl: 5, '& .leading-icon': { size: 5 } },
+        '&:has(.trailing-icon)': { pr: 5, '& .trailing-icon': { size: 5 } },
+      },
     },
   },
   defaultVariants: {
@@ -112,10 +126,15 @@ const buttonStyle = cva({
 type ButtonProps = WithCss<Omit<AriaButtonProps, 'className'>> &
   RecipeVariantProps<typeof buttonStyle> & {
     className?: string
+    leadingIcon?: React.ReactNode
+    trailingIcon?: React.ReactNode
   }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ css: cssProp, className, children, ...props }, ref) => {
+  (
+    { css: cssProp, className, children, leadingIcon, trailingIcon, ...props },
+    ref
+  ) => {
     const [variants, elementProps] = buttonStyle.splitVariantProps(props)
     const rootClassName = cx(css(buttonStyle.raw(variants), cssProp), className)
 
@@ -123,10 +142,30 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <AriaButton {...elementProps} ref={ref} className={rootClassName}>
         {(renderProps) => (
           <>
-            {renderProps.isPending && (
-              <ProgressCircle aria-label="Loading" isIndeterminate />
-            )}
+            {(() => {
+              if (renderProps.isPending) {
+                return (
+                  <ProgressCircle
+                    aria-label="Loading"
+                    isIndeterminate
+                    size="xs"
+                    css={{ color: 'muted.foreground' }}
+                  />
+                )
+              }
+
+              if (leadingIcon) {
+                return <span className="leading-icon">{leadingIcon}</span>
+              }
+
+              return null
+            })()}
+
             {typeof children === 'function' ? children(renderProps) : children}
+
+            {trailingIcon && (
+              <span className="trailing-icon">{trailingIcon}</span>
+            )}
           </>
         )}
       </AriaButton>

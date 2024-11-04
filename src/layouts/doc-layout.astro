@@ -7,11 +7,25 @@ import Sidebar from '@/components/sidebar.astro'
 import ContentContainer from '@/components/content-container.astro'
 import Layout from '@/layouts/layout.astro'
 import NavigationFooter from '@/components/navigation-footer.astro'
+import Badge from '@/components/badge.astro'
+import type { z } from 'astro:content'
+import { docSchema } from '@/content/config'
+import type { MarkdownHeading } from 'astro'
+
+interface Props {
+  frontmatter: z.infer<typeof docSchema>
+  headings: MarkdownHeading[]
+}
 
 const docs = await getCollection('docs')
 const components = await getCollection('components')
 
-const sortedDocs = docs.sort((a, b) => a.data.order - b.data.order)
+const sortedDocs = docs.sort((a, b) => {
+  if (a.data.order && b.data.order) {
+    return a.data.order - b.data.order
+  }
+  return 0
+})
 const entries = [...sortedDocs, ...components].map((entry) => ({
   root: entry.collection,
   slug: entry.slug,
@@ -19,7 +33,7 @@ const entries = [...sortedDocs, ...components].map((entry) => ({
 }))
 
 const { frontmatter, headings } = Astro.props
-const { title, description } = frontmatter
+const { title, description, badges } = frontmatter
 ---
 
 <Layout title={`${siteConfig.name} - ${title}`}>
@@ -50,6 +64,22 @@ const { title, description } = frontmatter
             <p class={css({ fontSize: 'xl', color: 'muted.foreground' })}>
               {description}
             </p>
+          )
+        }
+        {
+          badges && badges.length > 0 && (
+            <div
+              class={css({
+                display: 'flex',
+                gap: 8,
+                alignItems: 'center',
+                mt: 4,
+              })}
+            >
+              {badges.map(({ name, url }) => (
+                <Badge href={url}>{name}</Badge>
+              ))}
+            </div>
           )
         }
       </header>

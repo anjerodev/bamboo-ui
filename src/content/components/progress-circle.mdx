@@ -1,4 +1,162 @@
 ---
 title: 'Progress Circle'
 description: 'ProgressCircles show the progression of a system operation such as downloading, uploading, or processing, in a visual way. They can represent determinate or indeterminate progress.'
+badges:
+  [
+    {
+      name: 'Api reference',
+      url: 'https://react-spectrum.adobe.com/react-aria/ProgressBar.html',
+    },
+  ]
 ---
+
+import CodeSource from '@/components/code-source.astro'
+import PreviewContainer from '@/components/preview-container.astro'
+import * as ProgressCircles from '@/components/react/examples/progress-circle.tsx'
+
+## Installation
+
+1. Copy and paste the following code into your project.
+
+<CodeSource
+  path="/components/ui/progress-circle.tsx"
+  lang="tsx"
+  fileName="components/ui/progress-circle.tsx"
+/>
+
+## Examples
+
+### Default
+
+<PreviewContainer>
+
+<ProgressCircles.Default slot="preview" />
+
+```tsx meta={fileName: ProgressCirclenDemo.tsx}
+import { ProgressCircle } from '@/components/ui/progress-circle'
+import { css } from 'styled-system/css'
+
+export function ProgressCircleDemo() {
+  return (
+    <div className={css({ display: 'flex', gap: 8, alignItems: 'center' })}>
+      <ProgressCircle aria-label="Loading…" value={25} size="xs" />
+      <ProgressCircle aria-label="Loading…" value={50} />
+      <ProgressCircle aria-label="Loading…" value={75} size="md" />
+      <ProgressCircle aria-label="Loading…" value={100} size="lg" />
+    </div>
+  )
+}
+```
+
+</PreviewContainer>
+
+### Indeterminate
+
+<PreviewContainer>
+
+<ProgressCircles.Indeterminate slot="preview" />
+
+```tsx meta={fileName: IndeterminateProgressCircleDemo.tsx}
+import { ProgressCircle } from '@/components/ui/progress-circle'
+
+export function IndeterminateProgressCircleDemo() {
+  return <ProgressCircle aria-label="Loading…" isIndeterminate />
+}
+```
+
+</PreviewContainer>
+
+### Controllable
+
+<PreviewContainer>
+
+<ProgressCircles.Controllable slot="preview" client:load />
+
+```tsx meta={fileName: ControllableProgressCircleDemo.tsx}
+import { useState } from 'react'
+import { css } from 'styled-system/css'
+import { ProgressCircle } from '@/components/ui/progress-circle'
+
+export function ControllableProgressCircleDemo() {
+  const [value, setValue] = useState(0)
+
+  const handleValueChange = (value: number) => {
+    setValue((prev) => {
+      const result = prev + value
+      if (result > 100) return 100
+      if (result < 0) return 0
+      return result
+    })
+  }
+
+  return (
+    <div className={css({ display: 'flex', gap: 8, alignItems: 'center' })}>
+      <Button onPress={() => handleValueChange(-25)}>- 25</Button>
+      <ProgressCircle value={value} />
+      <Button onPress={() => handleValueChange(25)}>+ 25</Button>
+    </div>
+  )
+}
+```
+
+</PreviewContainer>
+
+### With percentage
+
+<PreviewContainer>
+
+<ProgressCircles.WithPercentage slot="preview" />
+
+```tsx meta={fileName: WithPercentageProgressCircleDemo.tsx}
+import { ProgressCircle } from '@/components/ui/progress-circle'
+
+export function WithPercentageProgressCircleDemo() {
+  return <ProgressCircle aria-label="Loading…" value={50} withPercentage />
+}
+```
+
+</PreviewContainer>
+
+### Custom color
+
+<PreviewContainer>
+
+<ProgressCircles.CustomColor slot="preview" />
+
+```tsx meta={fileName: CustomColorProgressCircleDemo.tsx}
+import { ProgressCircle } from '@/components/ui/progress-circle'
+import { css } from 'styled-system/css'
+
+export function CustomColorProgressCircleDemo() {
+  return (
+    <div className={css({ display: 'flex', gap: 8, alignItems: 'center' })}>
+      <ProgressCircle
+        value={75}
+        css={{
+          color: 'blue.500',
+        }}
+      />
+      <ProgressCircle
+        value={75}
+        css={{
+          color: 'yellow.500',
+        }}
+      />
+      <ProgressCircle
+        value={75}
+        css={{
+          color: 'pink.500',
+        }}
+      />
+      <ProgressCircle
+        value={75}
+        css={{
+          color: 'orange.500',
+        }}
+      />
+    </div>
+  )
+}
+```
+
+</PreviewContainer>

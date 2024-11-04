@@ -40,8 +40,8 @@
   :where(:root, :host) {
     --background: var(--colors-neutral-50);
     --foreground: var(--colors-neutral-900);
-    --primary: var(--colors-emerald-900);
-    --primary-foreground: var(--colors-emerald-50);
+    --primary: var(--colors-green-900);
+    --primary-foreground: var(--colors-green-50);
     --secondary: var(--colors-neutral-200);
     --secondary-foreground: var(--colors-neutral-950);
     --muted: var(--colors-neutral-200);
@@ -70,8 +70,8 @@
     :where(:root, :host) {
       --background: hsl(60, 2%, 9%);
       --foreground: var(--colors-neutral-100);
-      --primary: var(--colors-emerald-400);
-      --primary-foreground: var(--colors-emerald-950);
+      --primary: var(--colors-green-400);
+      --primary-foreground: var(--colors-green-950);
       --secondary: var(--colors-neutral-800);
       --secondary-foreground: var(--colors-neutral-50);
 

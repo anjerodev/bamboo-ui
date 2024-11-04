@@ -1,21 +1,30 @@
 ---
 title: Button
 description: A button allows a user to perform an action, with mouse, touch, and keyboard interactions.
+badges:
+  [
+    {
+      name: 'Api reference',
+      url: 'https://react-spectrum.adobe.com/react-aria/Button.html#props',
+    },
+  ]
 ---
 
 import CodeSource from '@/components/code-source.astro'
 import PreviewContainer from '@/components/preview-container.astro'
-import { Button } from '@/components/react/button.tsx'
+import * as Buttons from '@/components/react/examples/buttons.tsx'
 
 ## Installation
 
 1. Copy and paste the following code into your project.
 
-<CodeSource path="/components/react/button.tsx" lang="tsx" fileName="components/ui/button.tsx" />
+<CodeSource
+  path="/components/ui/button.tsx"
+  lang="tsx"
+  fileName="components/ui/button.tsx"
+/>
 
-2. For the loading state, you will need the `ProgressCircle` component. Or you can edit it and use your own loading component.
-
-<CodeSource path="/components/react/progress-circle.tsx" lang="tsx" fileName="components/ui/progress-circle.tsx" />
+2. For the pending state button, you will need the `ProgressCircle` component (check how to install it [here](/components/progress-circle)). Or you can edit it and use your own loading component.
 
 ## Examples
 
@@ -23,14 +32,12 @@ import { Button } from '@/components/react/button.tsx'
 
 <PreviewContainer>
 
-<Button slot="preview">
-  <span>Click me</span>
-</Button>
+<Buttons.DefaultButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: DefaultButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
+export function DefaultButtonDemo() {
   return <Button>Click me</Button>
 }
 ```
@@ -41,15 +48,13 @@ export function ButtonDemo() {
 
 <PreviewContainer>
 
-<Button variant='primary' slot="preview">
-  <span>Click me</span>
-</Button>
+<Buttons.PrimaryButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: PrimaryButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
-  return <Button variant='primary'>Click me</Button>
+export function PrimaryButtonDemo() {
+  return <Button variant="primary">Log in</Button>
 }
 ```
 
@@ -59,15 +64,13 @@ export function ButtonDemo() {
 
 <PreviewContainer>
 
-<Button variant='secondary' slot="preview">
-  <span>Click me</span>
-</Button>
+<Buttons.SecondaryButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: SecondaryButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
-  return <Button variant='secondary'>Click me</Button>
+export function SecondaryButtonDemo() {
+  return <Button variant="secondary">Cancel</Button>
 }
 ```
 
@@ -77,15 +80,13 @@ export function ButtonDemo() {
 
 <PreviewContainer>
 
-<Button variant='ghost' slot="preview">
-  <span>Click me</span>
-</Button>
+<Buttons.GhostButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: GhostButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
-  return <Button variant='ghost'>Click me</Button>
+export function GhostButtonDemo() {
+  return <Button variant="ghost">Booo!</Button>
 }
 ```
 
@@ -95,15 +96,13 @@ export function ButtonDemo() {
 
 <PreviewContainer>
 
-<Button variant='danger' slot="preview">
-  <span>Click me</span>
-</Button>
+<Buttons.DangerButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: DangerButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
-  return <Button variant='danger'>Click me</Button>
+export function DangerButtonDemo() {
+  return <Button variant="danger">Remove account</Button>
 }
 ```
 
@@ -113,15 +112,82 @@ export function ButtonDemo() {
 
 <PreviewContainer>
 
-<Button slot="preview" size="lg">
-  <span>Click me</span>
-</Button>
+<Buttons.LargeButton slot="preview" />
 
-```tsx meta={fileName: ButtonDemo.tsx}
-import { Button } from "@/components/ui/button"
+```tsx meta={fileName: LargeButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
 
-export function ButtonDemo() {
+export function LargeButtonDemo() {
   return <Button size="lg">Click me</Button>
+}
+```
+
+</PreviewContainer>
+
+### Pending button
+
+<PreviewContainer>
+
+<Buttons.PendingButton slot="preview" />
+
+```tsx meta={fileName: PendingButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
+
+export function PendingButtonDemo() {
+  return <Button isPending>Loading...</Button>
+}
+```
+
+</PreviewContainer>
+
+### Leading icon
+
+<PreviewContainer>
+
+<Buttons.LeadingIconButton slot="preview" />
+
+```tsx meta={fileName: LeadingIconButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
+import { ShareIcon } from '@/components/icons'
+
+export function LeadingIconButtonDemo() {
+  ;<Button leadingIcon={<ShareIcon />}>Share</Button>
+}
+```
+
+</PreviewContainer>
+
+### Trailing icon
+
+<PreviewContainer>
+
+<Buttons.TrailingIconButton slot="preview" />
+
+```tsx meta={fileName: TrailingIconButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
+import { ExternalLinkIcon } from '@/components/icons'
+
+export function TrailingIconButtonDemo() {
+  ;<Button trailingIcon={<ExternalLinkIcon />}>Open link</Button>
+}
+```
+
+</PreviewContainer>
+
+### Icon button
+
+<PreviewContainer>
+
+<Buttons.IconButton slot="preview" />
+
+```tsx meta={fileName: IconButtonDemo.tsx}
+import { Button } from '@/components/ui/button'
+import { ShareIcon } from '@/components/icons'
+
+export function IconButtonDemo() {
+  ;<Button size="icon">
+    <ShareIcon size={16} />
+  </Button>
 }
 ```
 

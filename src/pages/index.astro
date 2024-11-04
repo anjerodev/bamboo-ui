@@ -3,6 +3,8 @@ import { getEntry } from 'astro:content'
 import Pre from '@/components/pre.astro'
 import Prose from '@/components/prose.astro'
 import DocLayout from '@/layouts/doc-layout.astro'
+import type { z } from 'astro:content'
+import type { docSchema } from '@/content/config'
 
 const entry = await getEntry('docs', 'getting-started')
 const { Content, headings, remarkPluginFrontmatter } = await entry.render()
@@ -10,9 +12,11 @@ const { Content, headings, remarkPluginFrontmatter } = await entry.render()
 const filteredHeadings = headings.filter(
   (heading) => heading.depth > 1 && heading.depth <= 3
 )
+
+const frontmatter = remarkPluginFrontmatter as z.infer<typeof docSchema>
 ---
 
-<DocLayout frontmatter={remarkPluginFrontmatter} headings={filteredHeadings}>
+<DocLayout frontmatter={frontmatter} headings={filteredHeadings}>
   <Prose>
     <Content components={{ pre: Pre }} />
   </Prose>
