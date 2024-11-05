@@ -151,7 +151,7 @@ import { Button } from '@/components/ui/button'
 import { ShareIcon } from '@/components/icons'
 
 export function LeadingIconButtonDemo() {
-  ;<Button leadingIcon={<ShareIcon />}>Share</Button>
+  return <Button leadingIcon={<ShareIcon />}>Share</Button>
 }
 ```
 
@@ -168,7 +168,7 @@ import { Button } from '@/components/ui/button'
 import { ExternalLinkIcon } from '@/components/icons'
 
 export function TrailingIconButtonDemo() {
-  ;<Button trailingIcon={<ExternalLinkIcon />}>Open link</Button>
+  return <Button trailingIcon={<ExternalLinkIcon />}>Open link</Button>
 }
 ```
 
@@ -185,9 +185,11 @@ import { Button } from '@/components/ui/button'
 import { ShareIcon } from '@/components/icons'
 
 export function IconButtonDemo() {
-  ;<Button size="icon">
-    <ShareIcon size={16} />
-  </Button>
+  return (
+    <Button size="icon">
+      <ShareIcon size={16} />
+    </Button>
+  )
 }
 ```
 

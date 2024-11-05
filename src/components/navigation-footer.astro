@@ -53,7 +53,9 @@ const styles = {
     px: 4,
     py: 2,
     rounded: 'md',
-    transition: 'background-color 0.15s token(easings.easeIn)',
+    transition: 'scale, background-color',
+    transitionDuration: '0.15s',
+    transitionTimingFunction: 'easeIn',
     '& svg': {
       transition: 'transform, color',
       transitionDuration: '0.15s',
@@ -71,6 +73,9 @@ const styles = {
           transform: 'translateX(2px)',
         },
       },
+    },
+    _active: {
+      scale: 0.98,
     },
   }),
   span: css({
