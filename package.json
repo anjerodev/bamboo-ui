@@ -29,6 +29,7 @@
   "devDependencies": {
     "@pandacss/dev": "^0.47.0",
     "@shikijs/transformers": "^1.22.2",
+    "@trivago/prettier-plugin-sort-imports": "4.3.0",
     "prettier": "^3.3.3",
     "prettier-plugin-astro": "^0.14.1"
   },
