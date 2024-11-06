@@ -1,4 +1,4 @@
-import prose from "./pattern"
+import prose from './recipe'
 
 export { prose }
 export default prose

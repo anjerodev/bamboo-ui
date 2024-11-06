@@ -1,6 +1,6 @@
 import { defineConfig } from '@pandacss/dev'
 
-import prose from './panda-presets/prose'
+import proseRecipe from './panda-presets/prose'
 
 export default defineConfig({
   cssVarRoot: ':where(:root, :host)',
@@ -42,6 +42,9 @@ export default defineConfig({
   // Useful for theme customization
   theme: {
     extend: {
+      recipes: {
+        prose: proseRecipe,
+      },
       tokens: {
         easings: {
           easeIn: { value: 'cubic-bezier(0.4, 0, 0.2, 1)' },
@@ -124,12 +127,6 @@ export default defineConfig({
           },
         },
       },
-    },
-  },
-
-  patterns: {
-    extend: {
-      prose,
     },
   },
 

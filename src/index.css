@@ -1,16 +1,6 @@
 @layer reset, base, tokens, recipes, utilities;
 
 @layer base {
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p {
-    text-wrap: pretty;
-  }
-
   * {
     -webkit-tap-highlight-color: transparent;
     scrollbar-color: var(--muted-foreground) transparent;
@@ -45,7 +35,7 @@
     --secondary: var(--colors-neutral-200);
     --secondary-foreground: var(--colors-neutral-950);
     --muted: var(--colors-neutral-200);
-    --muted-foreground: var(--colors-neutral-400);
+    --muted-foreground: var(--colors-neutral-600);
     --input: var(--colors-neutral-50);
 
     --card: var(--colors-neutral-100);
@@ -76,7 +66,7 @@
       --secondary-foreground: var(--colors-neutral-50);
 
       --muted: hsl(60, 2%, 11%);
-      --muted-foreground: var(--colors-neutral-500);
+      --muted-foreground: var(--colors-neutral-400);
       --input: var(--colors-neutral-900);
 
       --border: var(--colors-neutral-600);
