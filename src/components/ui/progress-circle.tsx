@@ -1,8 +1,9 @@
 import { ProgressBar } from 'react-aria-components'
-import { css, cx, cva } from 'styled-system/css'
 import type { ProgressBarProps } from 'react-aria-components'
+import { css, cva, cx } from 'styled-system/css'
 import type { RecipeVariantProps } from 'styled-system/css'
-import type { WithCss } from '@/types/components'
+
+import type { WithCss } from '@/lib/styled-system/types'
 
 const progressCircleStyle = cva({
   base: {
@@ -123,5 +124,7 @@ const ProgressCircle = ({
     </ProgressBar>
   )
 }
+
+ProgressCircle.displayName = 'ProgressCircle'
 
 export { ProgressCircle }

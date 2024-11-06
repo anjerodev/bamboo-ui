@@ -36,8 +36,8 @@ After installing Panda CSS, you need to configure it to use the theme colors and
 ```tsx meta={fileName: index.astro}
 import ReactDOM from 'react-dom/client'
 
-import '.../index.css' // [!code ++]
-
+import '.../index.css'
+// [!code ++]
 import { App } from './app'
 
 const rootElement = document.getElementById('root')!
@@ -46,4 +46,33 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(<App />)
 }
+```
+
+## Typescript
+
+This components collection is thought to be used with typescript, and it is recommended to include the next aliases in your `tsconfig.json` file:
+
+```json meta={fileName: tsconfig.json}
+{
+  // other options
+  "compilerOptions": {
+    // other options
+    "baseUrl": ".", // [!code ++]
+    "paths": {
+      // [!code ++]
+      "@/*": ["src/*"] // [!code ++]
+    } // [!code ++]
+  },
+  "include": ["styled-system", "src"] // [!code ++]
+}
+```
+
+## Css prop
+
+All components includes de prop `css` that allows you to pass Panda css properties directly to the component without the need to import the `css` function from `styled-system/css`. To avoid the import errors in the components you need to create the file `src/lib/styled-system/types.ts` in your project and add the following code:
+
+```ts meta={fileName: src/lib/styled-system/types.ts}
+import type { WithCss as StyledWithCss } from 'styled-system/types'
+
+export type WithCss<T> = T & StyledWithCss
 ```

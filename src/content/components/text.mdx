@@ -1,0 +1,66 @@
+---
+title: Text
+description: Used to render text and paragraphs.
+---
+
+import CodeSource from '@/components/code-source.astro'
+import PreviewContainer from '@/components/preview-container.astro'
+import * as Texts from '@/components/react/examples/text.tsx'
+
+## Installation
+
+1. Copy and paste the following code into your project.
+
+<CodeSource
+  path="components/ui/text.tsx"
+  lang="tsx"
+  fileName="components/ui/text.tsx"
+/>
+
+# Examples
+
+### Paragraphs
+
+<PreviewContainer>
+
+<Texts.Default slot="preview" />
+
+```tsx meta={fileName: TextDemo.tsx}
+import { Text } from '@/components/ui/text'
+
+export const TextDemo = () => {
+  return (
+    <div>
+      <Text>Hello Bamboo UI</Text>
+      <Text css={{ fontSize: 'xl', fontWeight: 'semibold' }}>
+        Hello Bamboo UI
+      </Text>
+    </div>
+  )
+}
+```
+
+</PreviewContainer>
+
+### As span
+
+<PreviewContainer>
+
+<Texts.AsSpan slot="preview" />
+
+```tsx meta={fileName: TextAsSpanDemo.tsx}
+import { Text } from '@/components/ui/text'
+
+export const TextAsSpanDemo = () => {
+  return (
+      <Text>
+        Hello{' '}
+        <Text asSpan css={{ color: 'primary' }}>
+          Bamboo UI
+        </Text>
+      </Text>
+  )
+}
+```
+
+</PreviewContainer>

@@ -1,5 +1,3 @@
-'use client'
-
 import * as React from 'react'
 
 import { Button as AriaButton } from 'react-aria-components'
@@ -7,7 +5,7 @@ import type { ButtonProps as AriaButtonProps } from 'react-aria-components'
 import { css, cva, cx } from 'styled-system/css'
 import type { RecipeVariantProps } from 'styled-system/css'
 
-import type { WithCss } from '@/types/components'
+import type { WithCss } from '@/lib/styled-system/types'
 
 import { ProgressCircle } from '@/components/ui/progress-circle'
 

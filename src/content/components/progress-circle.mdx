@@ -19,7 +19,7 @@ import * as ProgressCircles from '@/components/react/examples/progress-circle.ts
 1. Copy and paste the following code into your project.
 
 <CodeSource
-  path="/components/ui/progress-circle.tsx"
+  path="components/ui/progress-circle.tsx"
   lang="tsx"
   fileName="components/ui/progress-circle.tsx"
 />
@@ -33,16 +33,17 @@ import * as ProgressCircles from '@/components/react/examples/progress-circle.ts
 <ProgressCircles.Default slot="preview" />
 
 ```tsx meta={fileName: ProgressCirclenDemo.tsx}
-import { ProgressCircle } from '@/components/ui/progress-circle'
 import { css } from 'styled-system/css'
+
+import { ProgressCircle } from '@/components/ui/progress-circle'
 
 export function ProgressCircleDemo() {
   return (
     <div className={css({ display: 'flex', gap: 8, alignItems: 'center' })}>
-      <ProgressCircle aria-label="Loading…" value={25} size="xs" />
-      <ProgressCircle aria-label="Loading…" value={50} />
-      <ProgressCircle aria-label="Loading…" value={75} size="md" />
-      <ProgressCircle aria-label="Loading…" value={100} size="lg" />
+      <ProgressCircle value={25} size="xs" />
+      <ProgressCircle value={50} />
+      <ProgressCircle value={75} size="md" />
+      <ProgressCircle value={100} size="lg" />
     </div>
   )
 }
@@ -60,7 +61,7 @@ export function ProgressCircleDemo() {
 import { ProgressCircle } from '@/components/ui/progress-circle'
 
 export function IndeterminateProgressCircleDemo() {
-  return <ProgressCircle aria-label="Loading…" isIndeterminate />
+  return <ProgressCircle isIndeterminate />
 }
 ```
 
@@ -74,7 +75,9 @@ export function IndeterminateProgressCircleDemo() {
 
 ```tsx meta={fileName: ControllableProgressCircleDemo.tsx}
 import { useState } from 'react'
+
 import { css } from 'styled-system/css'
+
 import { ProgressCircle } from '@/components/ui/progress-circle'
 
 export function ControllableProgressCircleDemo() {
@@ -111,7 +114,7 @@ export function ControllableProgressCircleDemo() {
 import { ProgressCircle } from '@/components/ui/progress-circle'
 
 export function WithPercentageProgressCircleDemo() {
-  return <ProgressCircle aria-label="Loading…" value={50} withPercentage />
+  return <ProgressCircle value={50} withPercentage />
 }
 ```
 
@@ -124,8 +127,9 @@ export function WithPercentageProgressCircleDemo() {
 <ProgressCircles.CustomColor slot="preview" />
 
 ```tsx meta={fileName: CustomColorProgressCircleDemo.tsx}
-import { ProgressCircle } from '@/components/ui/progress-circle'
 import { css } from 'styled-system/css'
+
+import { ProgressCircle } from '@/components/ui/progress-circle'
 
 export function CustomColorProgressCircleDemo() {
   return (

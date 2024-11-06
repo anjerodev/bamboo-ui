@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+
 import { ExternalLinkIcon, ShareIcon } from '@/components/react/icons'
 
 export const DefaultButton = () => <Button>Click me</Button>

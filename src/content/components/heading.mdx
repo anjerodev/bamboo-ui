@@ -1,0 +1,43 @@
+---
+title: Heading
+description: Used to render headings.
+---
+
+import CodeSource from '@/components/code-source.astro'
+import PreviewContainer from '@/components/preview-container.astro'
+import * as Headings from '@/components/react/examples/headings.tsx'
+
+## Installation
+
+1. Copy and paste the following code into your project.
+
+<CodeSource
+  path="components/ui/heading.tsx"
+  lang="tsx"
+  fileName="components/ui/heading.tsx"
+/>
+
+## Examples
+
+<PreviewContainer>
+
+<Headings.HeadingsDemo slot="preview" />
+
+```tsx meta={fileName: HeadingsDemo.tsx}
+import { Heading } from '@/components/ui/heading'
+
+export const HeadingsDemo = () => {
+  return (
+    <div>
+      <Heading>Hello Bamboo UI</Heading>
+      <Heading level={2}>Hello Bamboo UI</Heading>
+      <Heading level={3}>Hello Bamboo UI</Heading>
+      <Heading level={4}>Hello Bamboo UI</Heading>
+      <Heading level={5}>Hello Bamboo UI</Heading>
+      <Heading level={6}>Hello Bamboo UI</Heading>
+    </div>
+  )
+}
+```
+
+</PreviewContainer>
