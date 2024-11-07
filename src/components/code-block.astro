@@ -1,0 +1,166 @@
+---
+import {
+  FileTerminal as FileTerminalIcon,
+  FileType as FileTypeIcon,
+} from 'lucide'
+import { css, cx } from 'styled-system/css'
+
+import CopyButton from '@/components/copy-button.astro'
+import LucideIcon from '@/components/lucide-icon.astro'
+
+interface Props {
+  language?: string
+  fileName?: string
+}
+
+const { language, fileName } = Astro.props
+---
+
+<div
+  class={cx(
+    css({
+      mb: 9,
+      borderRadius: 'md',
+      overflow: 'hidden',
+      border: '1px solid',
+      borderColor: 'border/20',
+    }),
+    'code-block'
+  )}
+>
+  <div
+    class={css({
+      display: 'flex',
+      gap: 2,
+      alignItems: 'center',
+      p: 2,
+      pl: 4,
+      bg: 'background',
+      fontSize: 'sm',
+      color: 'muted.foreground',
+      fontWeight: 'semibold',
+      fontFamily: 'monospace',
+      borderBottom: '1px solid',
+      borderColor: 'border/20',
+      lineHeight: 'tight',
+    })}
+  >
+    {
+      () => {
+        if (language === 'bash') {
+          return <LucideIcon icon={FileTerminalIcon} width={16} height={16} />
+        }
+
+        return <LucideIcon icon={FileTypeIcon} width={16} height={16} />
+      }
+    }
+    {fileName && <span>{fileName}</span>}
+    <CopyButton class={css({ height: 8, width: 8, ml: 'auto' })} />
+  </div>
+  <div
+    class={css({
+      width: 'full',
+      overflow: 'hidden',
+      bg: 'background',
+    })}
+  >
+    <div
+      class={css({
+        position: 'relative',
+        maxHeight: 96,
+        width: 'full',
+        overflow: 'auto',
+        scrollbarColor: '{colors.muted.foreground/50} transparent',
+        '& pre': {
+          marginY: 3,
+          overflowX: 'hidden',
+          paddingX: 0,
+          minWidth: '100%',
+          width: 'fit-content',
+        },
+      })}
+    >
+      <slot />
+    </div>
+  </div>
+</div>
+
+<script>
+  const $codeBlocks = document.querySelectorAll('.code-block')
+  for (const $codeBlock of $codeBlocks) {
+    const $copyButton = $codeBlock.querySelector('.copy-button')
+    const $code = $codeBlock.querySelector('pre')
+
+    if ($code && $copyButton) {
+      const content = $code.textContent?.trim()
+
+      if (content) $copyButton.setAttribute('data-value', content)
+    }
+  }
+</script>
+
+<style is:global>
+  :root {
+    --code-line-diff-remove-color-soft: color-mix(
+      in srgb,
+      var(--colors-red-500) 16%,
+      transparent
+    );
+    --code-line-diff-remove-color: var(--colors-red-500);
+    --code-line-diff-add-color-soft: color-mix(
+      in srgb,
+      var(--colors-emerald-500) 16%,
+      transparent
+    );
+    --code-line-diff-add-color: var(--colors-emerald-500);
+  }
+
+  .astro-code,
+  .astro-code span {
+    background-color: transparent !important;
+  }
+
+  .astro-code code {
+    display: block;
+    padding: 0 28px;
+    width: fit-content;
+    min-width: 100%;
+  }
+
+  .astro-code .diff {
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 48px);
+    display: inline-block;
+
+    &:before {
+      position: absolute;
+      left: 10px;
+    }
+
+    &.add {
+      background-color: var(--code-line-diff-add-color-soft) !important;
+
+      &:before {
+        content: '+';
+        color: var(--code-line-diff-add-color);
+      }
+    }
+
+    &.remove {
+      background-color: var(--code-line-diff-remove-color-soft) !important;
+
+      &:before {
+        content: '-';
+        color: var(--code-line-diff-remove-color);
+      }
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .astro-code,
+    .astro-code span {
+      color: var(--shiki-dark) !important;
+    }
+  }
+</style>
